@@ -16,7 +16,7 @@ function App(){
 
         // update hooks
         setDataF(data);
-        setViewer(2);
+        setViewer(0);
     
         const listItems = items.map((el) => (
             // PRODUCT
@@ -167,7 +167,7 @@ function App(){
 
     function Summary(){
         const updateHooks = () => {
-            setViewer(0);
+            setViewer(2);
             setDataF({});
         }
 
