@@ -169,11 +169,11 @@ function App(){
                     </div>
                 </section>
                 <div class="bg-secondary">
-                <div class="album py-5">
-                <div class="container">
-                    <div class="row"> 
-                        <div>{listItems}</div>
-                    </div></div></div>
+                     <div class="album py-5">
+                        <div class="container">
+                           <div>{listItems}</div>
+                        </div>
+                    </div>
                 </div>
                 <footer class="text-muted">
                     <div class="container">
