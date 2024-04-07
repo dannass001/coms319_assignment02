@@ -20,6 +20,33 @@ function App() {
       <span class="text-body-secondary">${el.price}</span>
     </li>
   ));
+  //begin copy
+  const titles = [];
+  var count = 0;
+  function howManyofThis(id) {
+    let hmot = cart.filter((cartItem) => cartItem.id === id);
+    return hmot.length;
+  }
+  const CartItemsCheckout = cart.map(function(el){
+    for(var i = 0; i < titles.length; i++){
+      if(titles[i] == el.title){
+        return;
+      }
+    }
+    titles[count] = el.title;
+    count++;
+    return(
+      <li class="list-group-item d-flex justify-content-between lh-sm" key={el.id}>
+      <div>
+        <h6 class="my-0">{el.title}</h6>
+        <img class="img-fluid" src={el.image} width={150} />
+      </div>
+      <span class="text-body-secondary">${el.price} x{howManyofThis(el.id)}</span>
+    </li>
+    );
+  });
+  //end copy
+
   const total = () => {
     let totalVal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -48,7 +75,7 @@ function App() {
               <span class="badge bg-primary rounded-pill">{cart.length}</span>
             </h4>
             <ul class="list-group mb-3">
-              {CartItems}
+              {CartItemsCheckout}
               <li class="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
                 <strong>${cartTotal}</strong>
