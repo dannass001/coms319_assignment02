@@ -8,24 +8,27 @@ function App(){
     const [dataF,setDataF] = useState({});
     const [viewer,setViewer] = useState(0);
   
-    clearButton.addEventListener('click', function() {
-      searchInput.value = '';
-      const cards = cardsContainer.querySelectorAll('.card');
-      cards.forEach(card => {
-        card.classList.remove('hidden');
-      });
-    });
+    // clearButton.addEventListener('click', function() {
+    //   searchInput.value = '';
+    //   const cards = cardsContainer.querySelectorAll('.card');
+    //   cards.forEach(card => {
+    //     card.classList.remove('hidden');
+    //   });
+    // });
 
     function Browse(){
 
         const [cart, setCart] = useState([]);
         const [cartTotal, setCartTotal] = useState(0);
+        const [searchItem, setSearchItem] = useState("");
+        const [searchResults, setSearchResults] = useState([]);
 
-        // update hooks
-        // setDataF(data);
-        setViewer(0);
+        const updateHooks = ()=>{
+            setViewer(0);
+            setDataF({});
+        };
     
-        const listItems = items.map((el) => (
+        const listItems = searchResults.map((el) => (
             // PRODUCT
             <div class="row border-top border-bottom" key={el.id}>
                 <div class="row main align-items-center">
@@ -44,6 +47,19 @@ function App(){
                 </div>
             </div>
             ));
+
+            useEffect(() => {
+                const products = listItems.filter((item) =>
+                  item.name.toLowerCase().includes(searchItem.toLowerCase())
+                );
+
+                setSearchResults(products);
+            },
+            [searchItem]);
+            
+            const addToCart = (el) => {
+                setCart([...cart, el]);
+            };
             
         function howManyofThis(id) {
     
@@ -65,11 +81,6 @@ function App(){
             total();
         }, [cart]);
         
-        const addToCart = (el) => {
-    
-            setCart([...cart, el]);
-        };
-        
         const removeFromCart = (el) => {
         
             let hardCopy = [...cart];
@@ -88,16 +99,18 @@ function App(){
             setCartTotal(totalVal);
         };
 
-        // function handleClick()
-        // {
-
-        // }
-    
         return (
             <div>
                 STORE SE/ComS319
-                {/* <input type="text" id="searchInput" placeholder="Search..."/>
-                <button id="clearButton">Clear Search</button> */}
+                <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search for"
+                    value={searchItem}
+                    onChange={(e) => setSearchItem(e.target.value)}
+                />
+                <button onClick={updateHooks} className="btn-payment">Payment</button>
+                </div>
                 <div class="card">
                     <div class="row">
                         {/* HERE, IT IS THE SHOPPING CART */}
@@ -138,38 +151,6 @@ function App(){
             setDataF(data);
             setViewer(1);
         }
-
-    //     return(
-    //       <div>
-    //       <form onSubmit={handleSubmit(onSubmit)}>
-
-    //           <input {...register("fullName", { required: true })} placeholder="Full Name"/>
-    //           {errors.fullName && <p>Full Name is required.</p>}
-
-    //           <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="Email"/>
-    //           {errors.email && <p>Email is required.</p>}
-
-    //           <input {...register("creditCard", { required: true })} placeholder="Credit Card"/>
-    //           {errors.creditCard && <p>Credit Card is required.</p>}
-
-    //           <input {...register("address", { required: true })} placeholder="Address"/>
-    //           {errors.address && <p>Address is required.</p>}
-
-    //           <input {...register("address2")} placeholder="Address 2"/>
-
-    //           <input {...register("city", { required: true })} placeholder="City"/>
-    //           {errors.city && <p>City is required.</p>}
-
-    //           <input {...register("state", { required: true })} placeholder="State"/>
-    //           {errors.state && <p>State is required.</p>}
-
-    //           <input {...register("zip", { required: true })} placeholder="Zip"/>
-    //           {errors.zip && <p>Zip is required.</p>}
-
-    //           <button type="submit">Submit</button>
-    //       </form>
-    //   </div>
-    //     );
     }
 
     function Summary(){
