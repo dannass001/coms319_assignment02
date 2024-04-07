@@ -35,13 +35,6 @@ function App(){
         );
     });
     
-    const CartItems = cart.map((el) => (
-        <div key={el.id}>
-            <img class="img-fluid" src={el.image} width={150} />
-            {el.title}
-            ${el.price}
-        </div>
-      ));
       const total = () => {
         let totalVal = 0;
         for (let i = 0; i < cart.length; i++) {
@@ -121,15 +114,6 @@ function App(){
             hardCopy = hardCopy.filter((cartItem) => cartItem.id !== el.id);
         
             setCart(hardCopy);
-        };
-        
-        const total = () => {
-        
-            let totalVal = 0;
-            for (let i = 0; i < cart.length; i++) {
-            totalVal += cart[i].price;
-            }
-            setCartTotal(totalVal);
         };
 
         return (
