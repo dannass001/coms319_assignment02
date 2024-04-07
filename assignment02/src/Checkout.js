@@ -11,12 +11,14 @@ function App() {
   const [cart, setCart] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
 
-  const cartItems = cart.map((el) => (
-    <div key={el.id}>
+  const CartItems = cart.map((el) => (
+    <li class="list-group-item d-flex justify-content-between lh-sm" key={el.id}>
+      <div>
+        <h6 class="my-0">{el.title}</h6>
         <img class="img-fluid" src={el.image} width={150} />
-        {el.title}
-        ${el.price}
-    </div>
+      </div>
+      <span class="text-body-secondary">${el.price}</span>
+    </li>
   ));
   const total = () => {
     let totalVal = 0;
@@ -41,43 +43,60 @@ function App() {
         <button onClick={goHome}>Return</button>
         <div class="row g-5">
           <div class="col-md-5 col-lg-4 order-md-last">
-            <cartItems></cartItems>
-            <p class ="mb-0 me-5 d-flex align-items-center">
-              <span class ="small text-muted me-2">Order total:</span>
-              <span class ="lead fw-normal">${cartTotal}</span>
-            </p>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-primary">Your cart</span>
+              <span class="badge bg-primary rounded-pill">{cart.length}</span>
+            </h4>
+            <ul class="list-group mb-3">
+              {CartItems}
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total (USD)</span>
+                <strong>${cartTotal}</strong>
+              </li>
+            </ul>
           </div>
           <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Billing address</h4>
             <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
-                <div className="form-group">
-                    <input {...register("fullName", {required: true})} placeholder="Full Name" className="form-control"/>
+                <div class="col-12">
+                  <label for="firstName" class="form-label">Full Name</label>
+                  <input {...register("fullName", {required: true})} className="form-control"/>
                 </div>
-                <div className="form-group">
-                    <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="Email" className="form-control"/>
+                <div class="col-12">
+                    <label for="firstName" class="form-label">Email</label>
+                    <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="you@example.com" className="form-control"/>
                     {errors.email && <p>Email is required.</p>}
                 </div>
-                <div className="form-group">
-                    <input {...register("creditCard", { required: true })} placeholder="Credit Card" className="form-control"/>
+                <div class="col-12">
+                    <label for="firstName" class="form-label">Credit Card</label>
+                    <input {...register("creditCard", { required: true })} placeholder="1111 2222 3333 4444" className="form-control"/>
                     {errors.creditCard && <p>Credit Card is required.</p>}
                 </div>
-                <div className="form-group">
-                    <input {...register("address", { required: true })} placeholder="Address" className="form-control"/>
+                <div class="col-12">
+                    <label for="firstName" class="form-label">Address</label>
+                    <input {...register("address", { required: true })} placeholder="1234 Main St" className="form-control"/>
                     {errors.address && <p>Address is required.</p>}
                 </div>
-                <div className="form-group">
-                    <input {...register("address2")} placeholder="Address 2" className="form-control"/>
+                <div class="col-12">
+                    <label for="firstName" class="form-label">Address 2 (Optional)</label>
+                    <input {...register("address2")} placeholder="Apartment or suite" className="form-control"/>
                 </div>
-                <div className="form-group">
-                    <input {...register("city", { required: true })} placeholder="City" className="form-control"/>
-                    {errors.city && <p>City is required.</p>}
-                </div>
-                <div className="form-group">
-                    <input {...register("state", { required: true })} placeholder="State" className="form-control"/>
-                    {errors.state && <p>State is required.</p>}
-                </div>
-                <div className="form-group">
-                    <input {...register("zip", { required: true })} placeholder="Zip" className="form-control"/>
-                    {errors.zip && <p>Zip is required.</p>}
+                <div class="row g-5">
+                  <div class="col-md-5">
+                      <label for="firstName" class="form-label">City</label>
+                      <input {...register("city", { required: true })} className="form-control"/>
+                      {errors.city && <p>City is required.</p>}
+                  </div>
+                  <div class="col-md-4">
+                      <label for="firstName" class="form-label">State</label>
+                      <input {...register("state", { required: true })} className="form-control"/>
+                      {errors.state && <p>State is required.</p>}
+                  </div>
+                  <div class="col-md-3">
+                      <label for="firstName" class="form-label">Zip Code</label>
+                      <input {...register("zip", { required: true })} className="form-control"/>
+                      {errors.zip && <p>Zip is required.</p>}
+                  </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Order</button>
             </form>
