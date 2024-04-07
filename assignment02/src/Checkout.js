@@ -150,14 +150,19 @@ function App() {
       setPage(0);
     }
     return(
-      <div>
-        <h3>Congrats on your purchase</h3>
-        <cartItems></cartItems>
-        <p class ="mb-0 me-5 d-flex align-items-center">
-          <span class ="small text-muted me-2">Order total:</span>
-          <span class ="lead fw-normal">${cartTotal}</span>
-        </p>
-        <button onClick={freshStart}>Home  </button>
+      <div className="text-center">
+        <div className="text-center">
+          <h4>
+              <span >Thank you for your purchase!</span>
+          </h4>
+          <h4>
+            <span >Order total: ${cartTotal}</span>
+          </h4>
+          <ul class="list-group mb-3">
+            {CartItemsCheckout}
+          </ul>
+        </div>
+        <button onClick={freshStart}>Home</button>
       </div>
     );
   }
