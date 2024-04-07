@@ -10,6 +10,15 @@ function App(){
     const [cart, setCart] = useState([]);
     const [cartTotal, setCartTotal] = useState(0);
   
+    const CartItemsCheckout = cart.map((el) => (
+        <li class="list-group-item d-flex justify-content-between lh-sm" key={el.id}>
+          <div>
+            <h6 class="my-0">{el.title}</h6>
+            <img class="img-fluid" src={el.image} width={150} />
+          </div>
+          <span class="text-body-secondary">${el.price}</span>
+        </li>
+      ));
     const CartItems = cart.map((el) => (
         <div key={el.id}>
             <img class="img-fluid" src={el.image} width={150} />
@@ -37,21 +46,27 @@ function App(){
     
         const listItems = searchResults.map((el) => (
             // PRODUCT
-            <div class="col-md-2 text-white" key={el.id}>
-              <div class="card mb-4 box-shadow p-3 bg-light">
-                <img class="card-img-top" src={el.image} alt="Card image cap"/>
-                <div class="card-body">
-                <div class="row text-muted">{el.title}</div>
-                <div class="row">{el.category}</div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                    <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
-                        <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
+
+            <div class="album py-5">
+                <div class="container"></div>
+                <div class="row">
+                    <div class="col-md-2 text-white" key={el.id}>
+                        <div class="card mb-4 box-shadow p-3 bg-light">
+                            <img class="card-img-top" src={el.image} alt="Card image cap"/>
+                            <div class="card-body">
+                            <div class="row text-muted">{el.title}</div>
+                            <div class="row">{el.category}</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
+                                    <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
+                                </div>
+                                <small class="text-muted">${el.price} <span class="close text-success">&#10005;</span>{howManyofThis(el.id)}</small>
+                            </div>
+                            </div>
+                        </div>
                     </div>
-                    <small class="text-muted">${el.price} <span class="close text-success">&#10005;</span>{howManyofThis(el.id)}</small>
-                  </div>
                 </div>
-              </div>
             </div>
             ));
 
@@ -103,16 +118,17 @@ function App(){
                 <header>
                     <div class="navbar navbar-dark bg-dark box-shadow">
                         <div class="container d-flex justify-content-between">
-                            <a href="#" class="navbar-brand d-flex align-items-center">
-                                <strong>Store SE/ComS319</strong>
-                            </a>
                             <input
+                                // class=""
                                 type="text"
                                 placeholder="Search for"
                                 value={searchItem}
                                 onChange={(e) => setSearchItem(e.target.value)}
                             />
-                            <button onClick={updateHooks} className="btn-payment">Payment</button>
+                            <a href="#" class="navbar-brand d-flex align-items-center">
+                                <strong>Store SE/ComS319</strong>
+                            </a>
+                            <button onClick={updateHooks} className="btn-payment" class="bg-success rounded border-3 m-3">Checkout</button>
                         </div>
                     </div>
                 </header>
@@ -121,27 +137,18 @@ function App(){
                     
                 </div>
                 </header>
+                <section class="jumbotron text-center m-3">
+                    <div class="container">
+                        <p class ="mb-3 me-5 d-flex align-items-center mx-auto">
+                            <span class ="small text-muted me-4 text-right lead fw-normal"><b>Cart</b></span>
+                            <span class ="small text-muted me-4 text-right">Products selected {cart.length}</span>
+                            <span class ="small text-muted me-2">Order total:</span>
+                            <span class ="lead fw-normal">${cartTotal}</span>
+                        </p>
+                    </div>
+                </section>
                 <div class="bg-secondary">
-                    <div class="row">
-                        {/* HERE, IT IS THE SHOPPING CART */}
-                        <div class="col-md-4 mb-4 card">
-                                <div class="title">
-                                    <div class="row">
-                                        <div class="col text-center">
-                                            <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                                <b>319 Shopping Cart</b>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div class="col align-self-center text-right text-muted">
-                                        Products selected {cart.length}
-                                    </div>
-                                    <p class ="mb-0 me-5 d-flex align-items-center">
-                                        <span class ="small text-muted me-2">Order total:</span>
-                                        <span class ="lead fw-normal">${cartTotal}</span>
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="row"> 
                         <div>{listItems}</div>
                     </div>
                 </div>
@@ -168,54 +175,71 @@ function App(){
         }
     
         return(
-          <div>
-            <button onClick={goHome}>Return</button>
-            <div class="row g-5">
-              <div class="col-md-5 col-lg-4 order-md-last">
-              <div>{CartItems}</div>
-                <p class ="mb-0 me-5 d-flex align-items-center">
-                  <span class ="small text-muted me-2">Order total:</span>
-                  <span class ="lead fw-normal">${cartTotal}</span>
-                </p>
-              </div>
-              <div class="col-md-7 col-lg-8">
-                <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
-                    <div className="form-group">
-                        <input {...register("fullName", {required: true})} placeholder="Full Name" className="form-control"/>
-                    </div>
-                    <div className="form-group">
-                        <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="Email" className="form-control"/>
-                        {errors.email && <p>Email is required.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input {...register("creditCard", { required: true })} placeholder="Credit Card" className="form-control"/>
-                        {errors.creditCard && <p>Credit Card is required.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input {...register("address", { required: true })} placeholder="Address" className="form-control"/>
-                        {errors.address && <p>Address is required.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input {...register("address2")} placeholder="Address 2" className="form-control"/>
-                    </div>
-                    <div className="form-group">
-                        <input {...register("city", { required: true })} placeholder="City" className="form-control"/>
-                        {errors.city && <p>City is required.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input {...register("state", { required: true })} placeholder="State" className="form-control"/>
-                        {errors.state && <p>State is required.</p>}
-                    </div>
-                    <div className="form-group">
-                        <input {...register("zip", { required: true })} placeholder="Zip" className="form-control"/>
-                        {errors.zip && <p>Zip is required.</p>}
-                    </div>
-                    <button type="submit" className="btn btn-primary">Order</button>
-                </form>
+            <div>
+              <button onClick={goHome}>Return</button>
+              <div class="row g-5">
+                <div class="col-md-5 col-lg-4 order-md-last">
+                  <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill">{cart.length}</span>
+                  </h4>
+                  <ul class="list-group mb-3">
+                    {CartItemsCheckout}
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Total (USD)</span>
+                      <strong>${cartTotal}</strong>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-7 col-lg-8">
+                  <h4 class="mb-3">Billing address</h4>
+                  <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
+                      <div class="col-12">
+                        <label for="firstName" class="form-label">Full Name</label>
+                        <input {...register("fullName", {required: true})} className="form-control"/>
+                      </div>
+                      <div class="col-12">
+                          <label for="firstName" class="form-label">Email</label>
+                          <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="you@example.com" className="form-control"/>
+                          {errors.email && <p>Email is required.</p>}
+                      </div>
+                      <div class="col-12">
+                          <label for="firstName" class="form-label">Credit Card</label>
+                          <input {...register("creditCard", { required: true })} placeholder="1111 2222 3333 4444" className="form-control"/>
+                          {errors.creditCard && <p>Credit Card is required.</p>}
+                      </div>
+                      <div class="col-12">
+                          <label for="firstName" class="form-label">Address</label>
+                          <input {...register("address", { required: true })} placeholder="1234 Main St" className="form-control"/>
+                          {errors.address && <p>Address is required.</p>}
+                      </div>
+                      <div class="col-12">
+                          <label for="firstName" class="form-label">Address 2 (Optional)</label>
+                          <input {...register("address2")} placeholder="Apartment or suite" className="form-control"/>
+                      </div>
+                      <div class="row g-5">
+                        <div class="col-md-5">
+                            <label for="firstName" class="form-label">City</label>
+                            <input {...register("city", { required: true })} className="form-control"/>
+                            {errors.city && <p>City is required.</p>}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="firstName" class="form-label">State</label>
+                            <input {...register("state", { required: true })} className="form-control"/>
+                            {errors.state && <p>State is required.</p>}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="firstName" class="form-label">Zip Code</label>
+                            <input {...register("zip", { required: true })} className="form-control"/>
+                            {errors.zip && <p>Zip is required.</p>}
+                        </div>
+                      </div>
+                      <button type="submit" className="btn btn-primary">Order</button>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-        );
+          );
       }
 
     function Summary(){
