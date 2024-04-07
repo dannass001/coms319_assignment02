@@ -10,15 +10,31 @@ function App(){
     const [cart, setCart] = useState([]);
     const [cartTotal, setCartTotal] = useState(0);
   
-    const CartItemsCheckout = cart.map((el) => (
+    const titles = [];
+  var count = 0;
+  function howManyofThis(id) {
+    let hmot = cart.filter((cartItem) => cartItem.id === id);
+    return hmot.length;
+  }
+  const CartItemsCheckout = cart.map(function(el){
+    for(var i = 0; i < titles.length; i++){
+      if(titles[i] == el.title){
+        return;
+      }
+        }
+        titles[count] = el.title;
+        count++;
+        return(
         <li class="list-group-item d-flex justify-content-between lh-sm" key={el.id}>
-          <div>
+        <div>
             <h6 class="my-0">{el.title}</h6>
             <img class="img-fluid" src={el.image} width={150} />
-          </div>
-          <span class="text-body-secondary">${el.price}</span>
+        </div>
+        <span class="text-body-secondary">${el.price} x{howManyofThis(el.id)}</span>
         </li>
-      ));
+        );
+    });
+    
     const CartItems = cart.map((el) => (
         <div key={el.id}>
             <img class="img-fluid" src={el.image} width={150} />
@@ -46,28 +62,25 @@ function App(){
     
         const listItems = searchResults.map((el) => (
             // PRODUCT
-
-            <div class="album py-5">
-                <div class="container"></div>
                 <div class="row">
-                    <div class="col-md-2 text-white" key={el.id}>
+                    <div class="col-md-3 text-white rounded" key={el.id}>
                         <div class="card mb-4 box-shadow p-3 bg-light">
                             <img class="card-img-top" src={el.image} alt="Card image cap"/>
                             <div class="card-body">
-                            <div class="row text-muted">{el.title}</div>
-                            <div class="row">{el.category}</div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
-                                    <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
+                                <div class="row text-success lead fw-normal">${el.price}</div>
+                                <div class="row text-muted">{el.title}</div>
+                                <div class="row">{el.category}</div>
+                                <div class="d-flex justify-content-between align-items-center bg-info border border-dark">
+                                    <div class="btn-group">
+                                        <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
+                                        <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
+                                    </div>
+                                    <small class="text-muted px-2">{howManyofThis(el.id)}</small>
                                 </div>
-                                <small class="text-muted">${el.price} <span class="close text-success">&#10005;</span>{howManyofThis(el.id)}</small>
-                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             ));
 
             useEffect(() => {
@@ -148,9 +161,11 @@ function App(){
                     </div>
                 </section>
                 <div class="bg-secondary">
+                <div class="album py-5">
+                <div class="container">
                     <div class="row"> 
                         <div>{listItems}</div>
-                    </div>
+                    </div></div></div>
                 </div>
                 <footer class="text-muted">
                     <div class="container">
