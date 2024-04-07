@@ -71,13 +71,13 @@ function App(){
         const listItems = searchResults.map((el) => (
             // PRODUCT
                     <div class="col-md-3 text-white rounded" key={el.id}>
-                        <div class="card mb-4 box-shadow p-3 bg-light">
+                        <div class="card mb-4 box-shadow p-3 bg-white">
                             <img class="card-img-top" style={{height:400}} src={el.image} alt="Card image cap"/>
                             <div class="card-body">
                                 <div class="row text-success lead fw-normal">${el.price}</div>
                                 <div class="row text-muted">{el.title}</div>
                                 <div class="row">{el.category}</div>
-                                <div class="d-flex justify-content-between align-items-center bg-info border border-dark">
+                                <div class="d-flex justify-content-between align-items-center bg-light p-1 border border-dark">
                                     <div class="btn-group">
                                         <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
                                         <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
@@ -147,7 +147,7 @@ function App(){
                             <a href="#" class="navbar-brand d-flex align-items-center">
                                 <strong>Store SE/ComS319</strong>
                             </a>
-                            <button onClick={updateHooks} className="btn-payment" class="bg-success rounded border-3 m-3">Checkout</button>
+                            <button onClick={updateHooks} className="btn-payment" class="bg-success rounded p-2 m-3">Checkout</button>
                         </div>
                     </div>
                 </header>
