@@ -70,10 +70,9 @@ function App(){
     
         const listItems = searchResults.map((el) => (
             // PRODUCT
-                <div class="row">
                     <div class="col-md-3 text-white rounded" key={el.id}>
                         <div class="card mb-4 box-shadow p-3 bg-light">
-                            <img class="card-img-top" src={el.image} alt="Card image cap"/>
+                            <img class="card-img-top" style={{height:400}} src={el.image} alt="Card image cap"/>
                             <div class="card-body">
                                 <div class="row text-success lead fw-normal">${el.price}</div>
                                 <div class="row text-muted">{el.title}</div>
@@ -88,7 +87,6 @@ function App(){
                             </div>
                         </div>
                     </div>
-                </div>
             ));
 
             useEffect(() => {
@@ -170,9 +168,7 @@ function App(){
                 </section>
                 <div class="bg-secondary">
                      <div class="album py-5">
-                        <div class="container">
-                           <div>{listItems}</div>
-                        </div>
+                           <div class="row">{listItems}</div>
                     </div>
                 </div>
                 <footer class="text-muted">
@@ -198,97 +194,112 @@ function App(){
         }
     
         return(
-            <div>
-              <button onClick={goHome}>Return</button>
-              <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
-                  <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-pill">{cart.length}</span>
-                  </h4>
-                  <ul class="list-group mb-3">
-                    {CartItemsCheckout}
-                    <li class="list-group-item d-flex justify-content-between">
-                      <span>Total (USD)</span>
-                      <strong>${cartTotal}</strong>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md-7 col-lg-8">
-                  <h4 class="mb-3">Billing address</h4>
-                  <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
-                      <div class="col-12">
-                        <label for="firstName" class="form-label">Full Name</label>
-                        <input {...register("fullName", {required: true})} className="form-control"/>
-                      </div>
-                      <div class="col-12">
-                          <label for="firstName" class="form-label">Email</label>
-                          <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="you@example.com" className="form-control"/>
-                          {errors.email && <p>Email is required.</p>}
-                      </div>
-                      <div class="col-12">
-                          <label for="firstName" class="form-label">Credit Card</label>
-                          <input {...register("creditCard", { required: true })} placeholder="1111 2222 3333 4444" className="form-control"/>
-                          {errors.creditCard && <p>Credit Card is required.</p>}
-                      </div>
-                      <div class="col-12">
-                          <label for="firstName" class="form-label">Address</label>
-                          <input {...register("address", { required: true })} placeholder="1234 Main St" className="form-control"/>
-                          {errors.address && <p>Address is required.</p>}
-                      </div>
-                      <div class="col-12">
-                          <label for="firstName" class="form-label">Address 2 (Optional)</label>
-                          <input {...register("address2")} placeholder="Apartment or suite" className="form-control"/>
-                      </div>
-                      <div class="row g-5">
-                        <div class="col-md-5">
-                            <label for="firstName" class="form-label">City</label>
-                            <input {...register("city", { required: true })} className="form-control"/>
-                            {errors.city && <p>City is required.</p>}
-                        </div>
-                        <div class="col-md-4">
-                            <label for="firstName" class="form-label">State</label>
-                            <input {...register("state", { required: true })} className="form-control"/>
-                            {errors.state && <p>State is required.</p>}
-                        </div>
-                        <div class="col-md-3">
-                            <label for="firstName" class="form-label">Zip Code</label>
-                            <input {...register("zip", { required: true })} className="form-control"/>
-                            {errors.zip && <p>Zip is required.</p>}
-                        </div>
-                      </div>
-                      <button type="submit" className="btn btn-primary">Order</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          );
+         <div class="bg-dark min-vh-100">
+           <button onClick={goHome}>Return</button>
+           <div class="row g-5">
+             <div class="col-md-5 col-lg-4 order-md-last">
+               <h4 class="d-flex justify-content-between align-items-center mb-3">
+                 <span class="text-white">Your cart</span>
+                 <span class="badge bg-secondary me-2">{cart.length}</span>
+               </h4>
+               <ul class="list-group mb-3 me-2">
+                 {CartItemsCheckout}
+                 <li class="list-group-item d-flex justify-content-between">
+                   <span>Total (USD)</span>
+                   <strong>${cartTotal}</strong>
+                 </li>
+               </ul>
+             </div>
+             <div class="col-md-7 col-lg-8">
+               <h4 class="mb-3 text-white">Billing address</h4>
+               <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
+                   <div class="col-12">
+                     <label for="firstName" class="form-label text-white">Full Name</label>
+                     <input {...register("fullName", {required: true})} className="form-control"/>
+                     {errors.fullName && <p class="text-warning">Full name is required.</p>}
+                   </div>
+                   <div class="col-12">
+                       <label for="firstName" class="form-label text-white">Email</label>
+                       <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="you@example.com" className="form-control"/>
+                       {errors.email && <p class="text-warning">Email is required.</p>}
+                   </div>
+                   <div class="col-12">
+                       <label for="firstName" class="form-label text-white">Credit Card</label>
+                       <input {...register("creditCard", { required: true })} placeholder="1111 2222 3333 4444" className="form-control"/>
+                       {errors.creditCard && <p class="text-warning">Credit Card is required.</p>}
+                   </div>
+                   <div class="col-12">
+                       <label for="firstName" class="form-label text-white">Address</label>
+                       <input {...register("address", { required: true })} placeholder="1234 Main St" className="form-control"/>
+                       {errors.address && <p class="text-warning">Address is required.</p>}
+                   </div>
+                   <div class="col-12">
+                       <label for="firstName" class="form-label text-white">Address 2 (Optional)</label>
+                       <input {...register("address2")} placeholder="Apartment or suite" className="form-control"/>
+                   </div>
+                   <div class="row g-5">
+                     <div class="col-md-5">
+                         <label for="firstName" class="form-label text-white">City</label>
+                         <input {...register("city", { required: true })} className="form-control"/>
+                         {errors.city && <p class="text-warning">City is required.</p>}
+                     </div>
+                     <div class="col-md-4">
+                         <label for="firstName" class="form-label text-white">State</label>
+                         <input {...register("state", { required: true })} className="form-control"/>
+                         {errors.state && <p class="text-warning">State is required.</p>}
+                     </div>
+                     <div class="col-md-3">
+                         <label for="firstName" class="form-label text-white">Zip Code</label>
+                         <input {...register("zip", { required: true })} className="form-control"/>
+                         {errors.zip && <p class="text-warning">Zip is required.</p>}
+                     </div>
+                   </div>
+                   <button type="submit" className="btn btn-success mt-2">Order</button>
+               </form>
+             </div>
+           </div>
+         </div>
+       );
       }
 
-    function Summary(){
-        const freshStart = () => {
-          setCart([]);
-          setCartTotal(0);
-          setDataF({});
-          setViewer(0);
-        }
-        return(
-            <div className="text-center">
-              <div className="text-center">
-                <h4>
-                    <span >Thank you for your purchase!</span>
-                </h4>
-                <h4>
-                  <span >Order total: ${cartTotal}</span>
-                </h4>
-                <ul class="list-group mb-3">
-                  {CartItemsCheckout}
-                </ul>
-              </div>
-              <button onClick={freshStart}>Home</button>
-            </div>
-          );
-      }
+      function Summary(){
+         const freshStart = () => {
+           setCart([]);
+           setCartTotal(0);
+           setDataF({});
+           setViewer(0);
+         }
+         function RedactedCreditCard(){
+           let str = dataF.creditCard;
+           let last4 = str.substr(-4);
+           return(
+             <p>**** **** **** {last4}</p>
+           );
+         }
+         return(
+         <div class="row g-5 bg-dark min-vh-100">
+           <div class="col-12 mt-5">
+             <div className="text-center bg-white w-50 mt-5 mx-auto form-control">
+               <h4>
+                   <span >Thank you for your purchase!</span>
+               </h4>
+               <h4>
+                 <span >Order total: ${cartTotal}</span>
+               </h4>
+               <p>{dataF.fullName}</p>
+               <p>{dataF.email}</p>
+               <RedactedCreditCard></RedactedCreditCard>
+               <p>{dataF.address}</p>
+               <p>{dataF.city}, {dataF.state}, {dataF.zip}</p>
+               <ul class="list-group mb-3">
+                 {CartItemsCheckout}
+               </ul>
+               <button onClick={freshStart} className="btn btn-secondary mb-2">Home</button>
+             </div>
+           </div>
+         </div>
+         );
+       }
 
     
 
