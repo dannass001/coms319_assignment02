@@ -49,8 +49,8 @@ function App(){
             ));
 
             useEffect(() => {
-                const products = listItems.filter((item) =>
-                  item.name.toLowerCase().includes(searchItem.toLowerCase())
+                const products = items.filter((item) =>
+                  item.title.toLowerCase().includes(searchItem.toLowerCase())
                 );
 
                 setSearchResults(products);
