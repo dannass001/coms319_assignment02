@@ -20,7 +20,7 @@ function App() {
       <span class="text-body-secondary">${el.price}</span>
     </li>
   ));
-  //begin copy
+
   const titles = [];
   var count = 0;
   function howManyofThis(id) {
@@ -45,7 +45,6 @@ function App() {
     </li>
     );
   });
-  //end copy
 
   const total = () => {
     let totalVal = 0;
@@ -64,17 +63,17 @@ function App() {
       setDataF(data);
       setPage(2);
     }
-
+    //begin copy
     return(
-      <div>
+      <div class="bg-secondary min-vh-100">
         <button onClick={goHome}>Return</button>
         <div class="row g-5">
           <div class="col-md-5 col-lg-4 order-md-last">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-              <span class="text-primary">Your cart</span>
-              <span class="badge bg-primary rounded-pill">{cart.length}</span>
+              <span class="text-info">Your cart</span>
+              <span class="badge bg-info rounded-pill me-2">{cart.length}</span>
             </h4>
-            <ul class="list-group mb-3">
+            <ul class="list-group mb-3 me-2">
               {CartItemsCheckout}
               <li class="list-group-item d-flex justify-content-between">
                 <span>Total (USD)</span>
@@ -125,12 +124,13 @@ function App() {
                       {errors.zip && <p>Zip is required.</p>}
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Order</button>
+                <button type="submit" className="btn btn-info mt-2">Order</button>
             </form>
           </div>
         </div>
       </div>
     );
+    //end copy
   }
   function Home(){
     const goCheckout = () => {
@@ -142,6 +142,7 @@ function App() {
       </div>
     );
   }
+  //Begin Copy
   function Confirmation(){
     const freshStart = () => {
       setCart([]);
@@ -149,23 +150,38 @@ function App() {
       setDataF({});
       setPage(0);
     }
+    function RedactedCreditCard(){
+      let str = dataF.creditCard;
+      let last4 = str.substr(-4);
+      return(
+        <p>**** **** **** {last4}</p>
+      );
+    }
     return(
-      <div className="text-center">
-        <div className="text-center">
+    <div class="row g-5 bg-secondary min-vh-100">
+      <div class="col-12 mt-5">
+        <div className="text-center bg-white w-50 mt-5 mx-auto form-control">
           <h4>
               <span >Thank you for your purchase!</span>
           </h4>
           <h4>
             <span >Order total: ${cartTotal}</span>
           </h4>
+          <p>{dataF.fullName}</p>
+          <p>{dataF.email}</p>
+          <RedactedCreditCard></RedactedCreditCard>
+          <p>{dataF.address}</p>
+          <p>{dataF.city}, {dataF.state}, {dataF.zip}</p>
           <ul class="list-group mb-3">
             {CartItemsCheckout}
           </ul>
+          <button onClick={freshStart} className="btn btn-info mb-2">Home</button>
         </div>
-        <button onClick={freshStart}>Home</button>
       </div>
+    </div>
     );
   }
+  //end copy
   return (
     <div >
       {page === 0 && <Home />}
