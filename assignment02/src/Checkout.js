@@ -39,14 +39,16 @@ function App() {
     return(
       <div>
         <button onClick={goHome}>Return</button>
-        <div>
-          <cartItems></cartItems>
-          <p class ="mb-0 me-5 d-flex align-items-center">
-            <span class ="small text-muted me-2">Order total:</span>
-            <span class ="lead fw-normal">${cartTotal}</span>
-          </p>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
+        <div class="row g-5">
+          <div class="col-md-5 col-lg-4 order-md-last">
+            <cartItems></cartItems>
+            <p class ="mb-0 me-5 d-flex align-items-center">
+              <span class ="small text-muted me-2">Order total:</span>
+              <span class ="lead fw-normal">${cartTotal}</span>
+            </p>
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
                 <div className="form-group">
                     <input {...register("fullName", {required: true})} placeholder="Full Name" className="form-control"/>
                 </div>
@@ -79,6 +81,8 @@ function App() {
                 </div>
                 <button type="submit" className="btn btn-primary">Order</button>
             </form>
+          </div>
+        </div>
       </div>
     );
   }
