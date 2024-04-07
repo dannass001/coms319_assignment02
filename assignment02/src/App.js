@@ -7,19 +7,26 @@ function App(){
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [dataF,setDataF] = useState({});
     const [viewer,setViewer] = useState(0);
+    const [cart, setCart] = useState([]);
+    const [cartTotal, setCartTotal] = useState(0);
   
-    // clearButton.addEventListener('click', function() {
-    //   searchInput.value = '';
-    //   const cards = cardsContainer.querySelectorAll('.card');
-    //   cards.forEach(card => {
-    //     card.classList.remove('hidden');
-    //   });
-    // });
+    const cartItems = cart.map((el) => (
+        <div key={el.id}>
+            <img class="img-fluid" src={el.image} width={150} />
+            {el.title}
+            ${el.price}
+        </div>
+      ));
+      const total = () => {
+        let totalVal = 0;
+        for (let i = 0; i < cart.length; i++) {
+            totalVal += cart[i].price;
+        }
+        setCartTotal(totalVal);
+      };
 
     function Browse(){
 
-        const [cart, setCart] = useState([]);
-        const [cartTotal, setCartTotal] = useState(0);
         const [searchItem, setSearchItem] = useState("");
         const [searchResults, setSearchResults] = useState([]);
 
@@ -142,6 +149,67 @@ function App(){
     
     }
 
+    function Checkout(){
+        const goHome = () => {
+          setViewer(0);
+        }
+    
+        const onSubmit = data => {
+          setDataF(data);
+          setViewer(2);
+        }
+    
+        return(
+          <div>
+            <button onClick={goHome}>Return</button>
+            <div class="row g-5">
+              <div class="col-md-5 col-lg-4 order-md-last">
+                <cartItems></cartItems>
+                <p class ="mb-0 me-5 d-flex align-items-center">
+                  <span class ="small text-muted me-2">Order total:</span>
+                  <span class ="lead fw-normal">${cartTotal}</span>
+                </p>
+              </div>
+              <div class="col-md-7 col-lg-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="container mt-5">
+                    <div className="form-group">
+                        <input {...register("fullName", {required: true})} placeholder="Full Name" className="form-control"/>
+                    </div>
+                    <div className="form-group">
+                        <input {...register("email", { required: true, pattern: /^\S+@\S+$/i })} placeholder="Email" className="form-control"/>
+                        {errors.email && <p>Email is required.</p>}
+                    </div>
+                    <div className="form-group">
+                        <input {...register("creditCard", { required: true })} placeholder="Credit Card" className="form-control"/>
+                        {errors.creditCard && <p>Credit Card is required.</p>}
+                    </div>
+                    <div className="form-group">
+                        <input {...register("address", { required: true })} placeholder="Address" className="form-control"/>
+                        {errors.address && <p>Address is required.</p>}
+                    </div>
+                    <div className="form-group">
+                        <input {...register("address2")} placeholder="Address 2" className="form-control"/>
+                    </div>
+                    <div className="form-group">
+                        <input {...register("city", { required: true })} placeholder="City" className="form-control"/>
+                        {errors.city && <p>City is required.</p>}
+                    </div>
+                    <div className="form-group">
+                        <input {...register("state", { required: true })} placeholder="State" className="form-control"/>
+                        {errors.state && <p>State is required.</p>}
+                    </div>
+                    <div className="form-group">
+                        <input {...register("zip", { required: true })} placeholder="Zip" className="form-control"/>
+                        {errors.zip && <p>Zip is required.</p>}
+                    </div>
+                    <button type="submit" className="btn btn-primary">Order</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
     function Payment(){
         const onSubmit = data => {
             console.log(data); // log all data
@@ -153,23 +221,42 @@ function App(){
         }
     }
 
+    // function Summary(){
+    //     const updateHooks = () => {
+    //         setViewer(2);
+    //         setDataF({});
+    //     }
+
+    //     return(
+    //         <div>
+    //             <h1>Payment summary:</h1>
+    //             <h3>{dataF.fullName}</h3>
+    //             <p>{dataF.email}</p>
+    //             <p>{dataF.city},{dataF.state} {dataF.zip} </p>
+
+    //             <button onClick={updateHooks} className="btn btn-secondary">Submit</button>
+    //         </div>
+    //     );
+    // }
     function Summary(){
-        const updateHooks = () => {
-            setViewer(2);
-            setDataF({});
+        const freshStart = () => {
+          setCart([]);
+          setCartTotal(0);
+          setDataF({});
+          setViewer(0);
         }
-
         return(
-            <div>
-                <h1>Payment summary:</h1>
-                <h3>{dataF.fullName}</h3>
-                <p>{dataF.email}</p>
-                <p>{dataF.city},{dataF.state} {dataF.zip} </p>
-
-                <button onClick={updateHooks} className="btn btn-secondary">Submit</button>
-            </div>
+          <div>
+            <h3>Congrats on your purchase</h3>
+            <cartItems></cartItems>
+            <p class ="mb-0 me-5 d-flex align-items-center">
+              <span class ="small text-muted me-2">Order total:</span>
+              <span class ="lead fw-normal">${cartTotal}</span>
+            </p>
+            <button onClick={freshStart}>Home  </button>
+          </div>
         );
-    }
+      }
 
     
 
