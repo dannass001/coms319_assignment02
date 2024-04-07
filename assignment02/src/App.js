@@ -10,7 +10,7 @@ function App(){
     const [cart, setCart] = useState([]);
     const [cartTotal, setCartTotal] = useState(0);
   
-    const cartItems = cart.map((el) => (
+    const CartItems = cart.map((el) => (
         <div key={el.id}>
             <img class="img-fluid" src={el.image} width={150} />
             {el.title}
@@ -31,27 +31,27 @@ function App(){
         const [searchResults, setSearchResults] = useState([]);
 
         const updateHooks = ()=>{
-            setViewer(0);
+            setViewer(1);
             setDataF({});
         };
     
         const listItems = searchResults.map((el) => (
             // PRODUCT
-            <div class="row border-top border-bottom" key={el.id}>
-                <div class="row main align-items-center">
-                    <div class="col-2">
-                        <img class="img-fluid" src={el.image} />
-                    </div>
-                    <div class="col">
-                        <div class="row text-muted">{el.title}</div>
-                        <div class="row">{el.category}</div>
-                    </div>
-                    <div class="col">
-                        <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
+            <div class="col-md-2 text-white" key={el.id}>
+              <div class="card mb-4 box-shadow p-3 bg-light">
+                <img class="card-img-top" src={el.image} alt="Card image cap"/>
+                <div class="card-body">
+                <div class="row text-muted">{el.title}</div>
+                <div class="row">{el.category}</div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                    <button type="button" variant="light" onClick={() => removeFromCart(el)} > - </button>{" "}
                         <button type="button" variant="light" onClick={() => addToCart(el)}> + </button>
                     </div>
-                    <div class="col">${el.price} <span class="close">&#10005;</span>{howManyofThis(el.id)}</div>
+                    <small class="text-muted">${el.price} <span class="close text-success">&#10005;</span>{howManyofThis(el.id)}</small>
+                  </div>
                 </div>
+              </div>
             </div>
             ));
 
@@ -74,14 +74,6 @@ function App(){
     
             return hmot.length;
         }
-    
-        const cartItems = cart.map((el) => (
-            <div key={el.id}>
-            <img class="img-fluid" src={el.image} width={150} />
-            {el.title}
-            ${el.price}
-            </div>
-            ));
             
         useEffect(() => {
     
@@ -108,42 +100,58 @@ function App(){
 
         return (
             <div>
-                STORE SE/ComS319
-                <div className="search-container">
-                <input
-                    type="text"
-                    placeholder="Search for"
-                    value={searchItem}
-                    onChange={(e) => setSearchItem(e.target.value)}
-                />
-                <button onClick={updateHooks} className="btn-payment">Payment</button>
+                <header>
+                    <div class="navbar navbar-dark bg-dark box-shadow">
+                        <div class="container d-flex justify-content-between">
+                            <a href="#" class="navbar-brand d-flex align-items-center">
+                                <strong>Store SE/ComS319</strong>
+                            </a>
+                            <input
+                                type="text"
+                                placeholder="Search for"
+                                value={searchItem}
+                                onChange={(e) => setSearchItem(e.target.value)}
+                            />
+                            <button onClick={updateHooks} className="btn-payment">Payment</button>
+                        </div>
+                    </div>
+                </header>
+                <header>
+                <div class="collapse bg-dark" id="navbarHeader">
+                    
                 </div>
-                <div class="card">
+                </header>
+                <div class="bg-secondary">
                     <div class="row">
                         {/* HERE, IT IS THE SHOPPING CART */}
-                            <div class="col-md-8 cart">
+                        <div class="col-md-4 mb-4 card">
                                 <div class="title">
                                     <div class="row">
-                                        <div class="col">
-                                        <h4>
-                                        <b>319 Shopping Cart</b>
-                                        </h4>
+                                        <div class="col text-center">
+                                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                                <b>319 Shopping Cart</b>
+                                            </h4>
+                                        </div>
                                     </div>
                                     <div class="col align-self-center text-right text-muted">
                                         Products selected {cart.length}
                                     </div>
+                                    <p class ="mb-0 me-5 d-flex align-items-center">
+                                        <span class ="small text-muted me-2">Order total:</span>
+                                        <span class ="lead fw-normal">${cartTotal}</span>
+                                    </p>
                                 </div>
                             </div>
-                            <div class ="float-end">
-                                <p class ="mb-0 me-5 d-flex align-items-center">
-                                    <span class ="small text-muted me-2">Order total:</span>
-                                    <span class ="lead fw-normal">${cartTotal}</span>
-                                </p>
-                            </div>
-                        </div>
                         <div>{listItems}</div>
                     </div>
                 </div>
+                <footer class="text-muted">
+                    <div class="container">
+                        <p class="float-center">
+                            <a href="#">Back to top</a>
+                        </p>
+                    </div>
+                </footer>
             </div>
         );
     
@@ -164,7 +172,7 @@ function App(){
             <button onClick={goHome}>Return</button>
             <div class="row g-5">
               <div class="col-md-5 col-lg-4 order-md-last">
-                <cartItems></cartItems>
+              <div>{CartItems}</div>
                 <p class ="mb-0 me-5 d-flex align-items-center">
                   <span class ="small text-muted me-2">Order total:</span>
                   <span class ="lead fw-normal">${cartTotal}</span>
@@ -210,34 +218,6 @@ function App(){
         );
       }
 
-    function Payment(){
-        const onSubmit = data => {
-            console.log(data); // log all data
-            console.log(data.fullName); // log only fullname
-            
-            // update hooks
-            setDataF(data);
-            setViewer(1);
-        }
-    }
-
-    // function Summary(){
-    //     const updateHooks = () => {
-    //         setViewer(2);
-    //         setDataF({});
-    //     }
-
-    //     return(
-    //         <div>
-    //             <h1>Payment summary:</h1>
-    //             <h3>{dataF.fullName}</h3>
-    //             <p>{dataF.email}</p>
-    //             <p>{dataF.city},{dataF.state} {dataF.zip} </p>
-
-    //             <button onClick={updateHooks} className="btn btn-secondary">Submit</button>
-    //         </div>
-    //     );
-    // }
     function Summary(){
         const freshStart = () => {
           setCart([]);
@@ -248,7 +228,7 @@ function App(){
         return(
           <div>
             <h3>Congrats on your purchase</h3>
-            <cartItems></cartItems>
+            <div>{CartItems}</div>
             <p class ="mb-0 me-5 d-flex align-items-center">
               <span class ="small text-muted me-2">Order total:</span>
               <span class ="lead fw-normal">${cartTotal}</span>
@@ -263,7 +243,7 @@ function App(){
     return(
         <div>
             {viewer === 0 && <Browse />}
-            {viewer === 1 && <Payment />}
+            {viewer === 1 && <Checkout />}
             {viewer === 2 && <Summary />}
         </div>
     );
